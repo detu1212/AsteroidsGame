@@ -1,41 +1,56 @@
-class SpaceShip extends Floater  
-{   
-  public SpaceShip()
-  {
-      corners = 8;
-      xCorners = new int [corners];
-      yCorners = new int [corners];
-      xCorners[0] = 30;
-      yCorners[0] = 0;
-      xCorners[1] = 12;
-      yCorners[1] = 10;
-      xCorners[2] = 4;
-      yCorners[2] = 6;
-      xCorners[3] = -12;
-      yCorners[3] = 14;
-      xCorners[4] = -4;
-      yCorners[4] = 0;
-      xCorners[5] = -12;
-      yCorners[5] = -14;
-      xCorners[6] = 4;
-      yCorners[6] = -6;
-      xCorners[7] = 12;
-      yCorners[7] = -10;
-      myColor = color(255,165,0);
+class Spaceship extends Floater  
+{  
+    public Spaceship() {
+      corners = 4;
+      xCorners = new int[] {-8,16,-8,-2};
+      yCorners = new int[] {-8,0,8,0};
       myCenterX = 250;
       myCenterY = 250;
-      myDirectionX = 0;
-      myDirectionY = 0;
+      myXspeed = (Math.random()*2);
+      myYspeed = (Math.random()*2);
+      myPointDirection = Math.random()*2;
+      myColor = color(240,0,44);
+    }
+    public void show () {            
+      fill(myColor);  
+      stroke(myColor);
+      super.show();
+     }
+    public double getX() {
+      return myCenterX;
+    }
+    public void setX(int x) {
+      myCenterX = x;
+    }
+    public double getY() {
+      return myCenterY;
+    }
+     public void setY(int y) {
+      myCenterY = y;
+    }
+    public void setPointDirection(int degrees) {
+      myPointDirection = degrees;
+    }
+    public double getPointDirection() {
+      return myPointDirection;
+    }
+    public void setDirectionX(double x){
+      myXspeed = x;
+    }
+    public double getDirectionX() {
+      return myXspeed;
+    }
+    public void setDirectionY(double y){
+      myYspeed = y;
+    }
+    public double getDirectionY() {
+      return myYspeed;
+  }
+  public void hyperspace() {
+      myXspeed = 0;
+      myYspeed = 0;
+      myCenterX = (int)(Math.random()*250);
+      myCenterY= (int)(Math.random()*250);
       myPointDirection = 0;
     }
-    public void setX(int x){myCenterX = x;}
-    public int getX(){return (int)myCenterX;}   
-    public void setY(int y){myCenterY = y;}   
-    public int getY(){return (int)myCenterY;}   
-    public void setDirectionX(double x){myDirectionX = x;}   
-    public double getDirectionX(){return myDirectionX;}   
-    public void setDirectionY(double y){myDirectionY = y;}   
-    public double getDirectionY(){return myDirectionY;}   
-    public void setPointDirection(int degrees){myPointDirection = degrees;}   
-    public double getPointDirection(){return myPointDirection;} 
 }
