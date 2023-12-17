@@ -1,121 +1,66 @@
-Spaceship spaceship;
-Asteroid[] asteroids;
-
-void setup() {
-  size(800, 600);
-  spaceship = new Spaceship();
-  
-  // Create an array of asteroids
-  asteroids = new Asteroid[5];
-  for (int i = 0; i < asteroids.length; i++) {
-    asteroids[i] = new Asteroid();
+Spaceship bob = new Spaceship();
+Star[] sue = new Star[200];
+ArrayList <Asteroid> brick = new ArrayList <Asteroid> ();
+ArrayList <Bullet> shots = new ArrayList <Bullet> ();
+public void setup()
+{
+  size(500,500);
+  for(int i = 0; i < sue.length; i++)
+  {
+    sue[i] = new Star();
   }
+  for(int i = 0; i < 20; i++) {
+    brick.add(new Asteroid());
+  }
+ 
+}
+public void draw()
+{
+   background(0);
+   for(int i= 0; i< sue.length; i++) {
+    sue[i].show();
+   }
+   bob.show();
+   bob.move();
+   for(int i = 0; i < brick.size(); i++) {
+     brick.get(i).show();
+     brick.get(i).move();
+     float d = dist((float)bob.getX(), (float)bob.getY(), (float)brick.get(i).getX(),(float) brick.get(i).getY());
+       if(d<30) {
+         brick.remove(i);
+         i--;
+         break;
+       }
+       for(int j =0; j < shots.size(); j++) {
+         shots.get(j).move();
+         shots.get(j).show();
+         float e = dist((float)brick.get(i).getX(),(float) brick.get(i).getY(), (float)shots.get(j).getX(),(float) shots.get(j).getY());
+           if(e<20) {
+             brick.remove(i);
+             shots.remove(j);
+              i--;
+              j--;
+             break;
+           }
+       }
+   }
 }
 
-void draw() {
-  background(0);
-  
-  // Move and display the spaceship
-  spaceship.move();
-  spaceship.display();
-  
-  // Move and display asteroids
-  for (Asteroid asteroid : asteroids) {
-    asteroid.move();
-    asteroid.display();
+public void keyPressed() {
+  if(key == '1')
+  {
+    bob.hyperspace();
   }
-}
-
-void keyPressed() {
-  // Spaceship controls
-  if (keyCode == LEFT) {
-    spaceship.turnLeft();
-  } else if (keyCode == RIGHT) {
-    spaceship.turnRight();
-  } else if (keyCode == UP) {
-    spaceship.accelerate();
+  if(key == '2') {
+    bob.turn(-15);
   }
-}
-
-void keyReleased() {
-  // Stop spaceship movement when keys are released
-  if (keyCode == LEFT || keyCode == RIGHT || keyCode == UP) {
-    spaceship.stop();
+  if(key == '3') {
+    bob.turn(15);
   }
-}
-
-// Spaceship class
-class Spaceship {
-  float x, y;
-  float angle;
-  float speed;
-  boolean isMoving;
-
-  Spaceship() {
-    x = width / 2;
-    y = height / 2;
-    angle = 0;
-    speed = 0;
-    isMoving = false;
+  if(key == '4'){
+    bob.accelerate(1);
   }
-
-  void move() {
-    if (isMoving) {
-      x += speed * cos(radians(angle));
-      y += speed * sin(radians(angle));
-      // Perform boundary check if needed
-    }
-  }
-
-  void turnLeft() {
-    angle -= 5;
-  }
-
-  void turnRight() {
-    angle += 5;
-  }
-
-  void accelerate() {
-    isMoving = true;
-    speed = 2; // Adjust the speed as needed
-  }
-
-  void stop() {
-    isMoving = false;
-    speed = 0;
-  }
-
-  void display() {
-    // Draw spaceship based on its position and angle
-    pushMatrix();
-    translate(x, y);
-    rotate(radians(angle));
-    fill(255);
-    triangle(-10, -10, 10, -10, 0, 20);
-    popMatrix();
-  }
-}
-
-// Asteroid class
-class Asteroid {
-  float x, y;
-  float speedX, speedY;
-
-  Asteroid() {
-    x = random(width);
-    y = random(height);
-    speedX = random(-2, 2);
-    speedY = random(-2, 2);
-  }
-
-  void move() {
-    x += speedX;
-    y += speedY;
-    // Perform boundary check if needed
-  }
-
-  void display() {
-    fill(150);
-    ellipse(x, y, 20, 20);
+  if(key == 'b') {
+    shots.add(new Bullet(bob));
   }
 }
